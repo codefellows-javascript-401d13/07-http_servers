@@ -12,6 +12,12 @@ const server = http.createServer(function(req, res) {
   req.url.query = querystring.parse(req.url.query);
 
   console.log('request url:', req.url);
+  if (req.method === 'GET' && req.url.pathname === '/cowsay') {
+    res.write(cowsay.say({ text: 'hi there!'}));
+    res.end();
+  };
+  
+  res.end();
 });
 
 
