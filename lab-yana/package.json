@@ -13,5 +13,8 @@
     "cowsay": "^1.1.9",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1"
+  },
+  "dependencies": {
+    "cowsay": "^1.1.9"
   }
 }
