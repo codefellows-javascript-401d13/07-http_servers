@@ -9,7 +9,9 @@ const parseBody = require('./lib/parse-body.js');
 const server = http.createServer(function(req, res){
   req.url = url.parse(req.url);
   req.url.query = querystring.parse(req.url.query);
-
+  if()
+  if()
+  res.end()
 });
 
 server.listen(PORT, function(){
