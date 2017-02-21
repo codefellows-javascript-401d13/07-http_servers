@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/GLSea1979/07-http_servers/issues"
   },
-  "homepage": "https://github.com/GLSea1979/07-http_servers#readme"
+  "homepage": "https://github.com/GLSea1979/07-http_servers#readme",
+  "dependencies": {
+    "cowsay": "^1.1.9"
+  }
 }
