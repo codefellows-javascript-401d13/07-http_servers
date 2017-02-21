@@ -11,5 +11,10 @@ module.exports = function (req, cb) {
       req.body = JSON.parse(req.body);
       cb(null, req.body);
     } catch (err) { cb(err); }
+  //   if (req.body !== '') {
+  //     req.body = JSON.parse(req.body);
+  //     console.log('in req end');
+  //     cb(null, req.body);
+  //   } else cb('error');
   });
 };
