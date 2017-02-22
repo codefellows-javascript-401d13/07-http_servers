@@ -10,51 +10,62 @@ const PORT = process.env.PORT || 3000;
 const server = http.createServer(function(req, res) {
     req.url = url.parse(req.url);
     req.url.query = querystring.parse(req.url.query);
-
-    console.log('URL query:', req.url.query);
-    
-    // console.log('the whole request object:', req);
-
-    if (req.method === 'POST') {
-        parseBody(req, function(err) {
-            if (err) return console.error(err);
-            console.log('POST request body content:', req.body);
-        });
-    };
-    
+        
     if (req.url.pathname === '/') {
         var message = 'Hello from my server!';
         res.writeHead(200, message, {'Content-Type': 'text/plain'});
-        console.log('GET response status message:', res.statusMessage);        
         res.end();
     };
 
 
     if (req.method === 'GET' && req.url.pathname === '/cowsay') {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.setHeader('Content-Type', 'text/plain');
 
         if (req.url.query.text) {
-            console.log('anything');
+            res.statusCode = 200;
             res.write(cowsay.say({
-                text: `${req.url.query.text}`
+                text: `${req.url.query.text}`,
+                f: 'whale'
             }));
             res.end();
         };
 
         if (!req.url.query.text) {
-            console.log('empty query statement should run');
             res.statusCode = 400;
             res.write(cowsay.say({
-                text: 'bad request'
+                text: 'bad request',
+                f: 'flaming-sheep'
             }));
             res.end();          
         };
     };
 
     if (req.method === 'POST' && req.url.pathname === '/cowsay') {
+       parseBody(req, function(err) {
+        res.setHeader('Content-Type', 'text/plain');
         
-    }
+        if (req.body.text) {
+            res.statusCode = 200;
+            res.write(cowsay.say({
+                text: `${req.body.text}`,
+                f: 'hedgehog'
+            }));
+            
+            res.end();
+        }; 
 
+        if (err) {
+            res.statusCode = 400;
+            res.write(cowsay.say({
+                text: 'bad request',
+                f: 'milk'
+                }));
+                
+                res.end();
+            };
+         });
+       return;
+    };
     res.end();
 });
 
