@@ -1,28 +1,16 @@
-![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) Lab 07: Cowsay API
-===
-
-## To Submit this Assignment
-  * fork this repository
-  * write all of your code in a directory named `lab-` + `<your name>` **e.g.** `lab-brian`
-  * push to your repository
-  * submit a pull request to this repository
-  * submit a link to your PR in canvas
-  * write a question and observation on canvas
-
-## Include
-  * `.gitignore`
-  * `.eslintrc`
-  * `package.json`
-  * `gulpfile.js`
-  * `README.md`
+### CowSay Project
 
 ## Description
-* Create an HTTP Server using the NodeJS `http` module
-* Create a *custom* body parsing module that is used for parsing the body of all **POST** requests
-* For all requests made to `/`, the server should respond with the following:
-  * a header containing `Content-Type: text/plain`
-  * a status code of **200**
-  * a response with the string "hello from my server!"
+* This is a program to see what a cow has to say to you when you call it. It runs in NodeJS and uses HTTPie to run stuff.
+
+
+## Description
+<!-- * Create an HTTP Server using the NodeJS `http` module -->
+<!-- * Create a *custom* body parsing module that is used for parsing the body of all **POST** requests -->
+<!-- * For all requests made to `/`, the server should respond with the following: -->
+  <!-- * a header containing `Content-Type: text/plain` -->
+  <!-- * a status code of **200** -->
+  <!-- * a response with the string "hello from my server!" -->
 * For all **GET** requests made to `/cowsay`, the server should respond with the following:
   * the query string should have the key value `text=<message>`
   * the response header should include `Content-Type: text/plain`
