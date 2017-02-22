@@ -30,18 +30,18 @@ const server = http.createServer(function(req, res) {
       console.log('data:', data);
       if (err) {
         console.log('Uhoh');
-        // res.writeHead(400, 'Bad Request', {'Content-Type': 'text/plain'});
-        // res.write(cowsay.say({ text: 'bad request'}));
-        // res.end();
-        // console.error(err);
-        // return;
+        res.writeHead(400, 'Bad Request', {'Content-Type': 'text/plain'});
+        res.write(cowsay.say({ text: 'bad request'}));
+        res.end();
+        return;
       }
       if(data['text']) {
         let cowSpeak = data['text'];
+        console.log(cowSpeak);
         res.writeHead(200, 'OK', {'Content-Type': 'text/plain'});
         res.write(cowsay.say({ text: cowSpeak }));
         res.end();
-        // return;
+        return;
       }
     });
   }
