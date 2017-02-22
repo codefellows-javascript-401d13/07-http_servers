@@ -15,11 +15,17 @@ const server = http.createServer(function(req, res) {
   // }
 
   if(req.method === 'GET' && req.url.pathname === '/cowsay') {
-    if (req.url.query) console.log('object passed conditional');
-    res.writeHead(200, { 'Content-Type': 'text/plain'});
-    res.write(cowsay.say({ text: 'hello' }));
-    res.end();
+    if (req.url.query.text) {
+      let cowSpeak = req.url.query['text'];
+      res.writeHead(200, 'OK', { 'Content-Type': 'text/plain'});
+      res.write(cowsay.say({ text: cowSpeak }));
+      res.end();
+    }
   }
+  //   res.writeHead(200, { 'Content-Type': 'text/plain'});
+  //   res.write(cowsay.say({ text: 'hello' }));
+  //   res.end();
+  // }
 
   if (req.method === 'GET' && req.url.pathname === '/') {
     res.writeHead(200, 'OK', { 'Content-Type': 'text/plain'});
