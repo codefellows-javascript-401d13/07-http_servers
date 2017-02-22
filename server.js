@@ -14,7 +14,7 @@ const server = http.createServer(function(req, res){
 
 
   if (req.url.pathname === '/') {
-    res.writeHeader(200,{'Content-Type': 'text/plain'});
+    res.writeHeader(200,{'Content-Type': 'hello from Mooville'});
     res.end();
   }
 
