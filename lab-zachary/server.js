@@ -24,7 +24,7 @@ const server = http.createServer(function(req, res){
       res.end()
       return;
     };
-    res.write(cowsay.say({text: query.text, f: 'squirrel' }));
+    res.write(cowsay.say({text: query.text, f: (query.cow ? query.cow :'default') }));
     res.end();
     return;
   };
