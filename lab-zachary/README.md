@@ -1,45 +1,54 @@
-![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) Lab 07: Cowsay API
-===
+# Cowsay FTW
+ ```
+ ____________
+<The cow says Mooo >
+ ------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+```
+This app creates an HTTP server that handles GET and POST requests to relay meaningful messages to the user via the Cowsay module.
 
-## To Submit this Assignment
-  * fork this repository
-  * write all of your code in a directory named `lab-` + `<your name>` **e.g.** `lab-brian`
-  * push to your repository
-  * submit a pull request to this repository
-  * submit a link to your PR in canvas
-  * write a question and observation on canvas
+# System Requirements
 
-## Include
-  * `.gitignore`
-  * `.eslintrc`
-  * `package.json`
-  * `gulpfile.js`
-  * `README.md`
+  - Terminal.app on macOS or equivalent
+  - node.js and npm package manager installed
 
-## Description
-* Create an HTTP Server using the NodeJS `http` module
-* Create a *custom* body parsing module that is used for parsing the body of all **POST** requests
-* For all requests made to `/`, the server should respond with the following:
-  * a header containing `Content-Type: text/plain`
-  * a status code of **200**
-  * a response with the string "hello from my server!"
-* For all **GET** requests made to `/cowsay`, the server should respond with the following:
-  * the query string should have the key value `text=<message>`
-  * the response header should include `Content-Type: text/plain`
-  * if the query `text=messsage` is set, respond with:
-    * a status code of 200
-    * a response body that includes the value returned from `cowsay.say({ text: <querystring text> })`
-  * if the query `text=message` is **not** set, respond with:
-    * status code = 400
-    * a body including the value returned from `cowsay.say({ text: 'bad request' })`
-* For all **POST** requests made to `/cowsay`, the server should respond with the following:
-  * the response header should include `Content-Type: text/plain`
-  * if the JSON `{text: messsage}` is set in the body, respond with:
-    * a status code of 200
-    * a response body including the value returned from `cowsay.say({ text: <querystring text> })`
-  * if the JSON `{text: messsage}` is **not** set in the body, respond with:
-      * a status code of 400
-      * a body including the value returned from `cowsay.say({ text: 'bad request' })`
 
-## Bonus
-* **2pts:** add the ability to change the cowfile - **ex: dragon, sheep, etc** _(note: this should be done through the querystring)_
+### Installation
+
+Clone the repository to your local server
+```sh
+$ git clone https://github.com/zcrumbo/07-http_servers.git
+```
+
+Install the dependencies - Cowsay will be installed with the following command
+
+```sh
+$ npm i
+```
+[HTTPie](https://httpie.org/) will be required to run the HTTP requests from your terminal window. You will need to install this with [Homebrew][1] on macOS - otherwise you can open a browser window with developer tools open to view request and response information.
+
+Start the server
+
+```sh
+$ node server.js
+```
+
+
+### Connecting
+
+If you are using HTTPie, in your terminal window, type the following commands, where '3000' would be replaced with your local environment PORT variable, if configured.
+```sh
+$ http :3000/ #gives a simple 200 response
+$ http :3000/cowsay #no url parameters, gives a 400 error with a cowsay message
+$ http :3000/cowsay text=='message string' #text url parameter - gives a 200 response with your message string as a cowsay message
+$ http :3000/cowsay text=='message string' cow='another cowsay cow' #returns a 200 response with your cowsay message and a custom cow. See cowsay docs for full list of supported cows.
+$ http POST :3000/cowsay # no message body posted - will return a 400 response with cowsay error message
+$ http POST :3000/cowsay body='your message string'  # will return a 200 response with your message string as a cowsay message
+```
+
+[1]:https://brew.sh/
+
