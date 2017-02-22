@@ -17,9 +17,8 @@ const server = http.createServer(function(req, res) {
 
   // console.log('request url:', req.url);
   // console.log('request method:', req.method);
-  console.log('request headers:', req.headers);
-  // console.log('request queries', req.url.query);
-
+  // console.log('request headers:', req.headers);
+  console.log('message:', req.url.query.text);
 
   if (req.method === 'POST' && req.url.pathname === '/cowsay') {
     parseBody(req, function(err) {
@@ -29,9 +28,15 @@ const server = http.createServer(function(req, res) {
   };
 
   if (req.method === 'GET' && req.url.pathname === '/cowsay') {
-    
-    res.write(cowsay.say({ text: 'hello from cowville'}));
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
+
+    if (req.url.query.text) {
+      res.write(cowsay.say({ text: `${req.url.query.text}`}));
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+    }
+    else {
+      res.write(cowsay.say({ text: 'bad request'}));
+      res.writeHead(400, { 'Content-Type': 'text/plain' });
+    }
 
     res.end();
   }
