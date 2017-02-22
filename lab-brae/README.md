@@ -7,9 +7,9 @@ Here is a basic exercise utilizing the Cowsay NPM package.
 2. Navigate to the correct folder: `cd 07-http_servers/lab-brae`
 3. Run `npm i` in your terminal.
 4. Install Httpie:
-⋅⋅* Apple users: `$ brew install httpie`
-⋅⋅* Linux users: `$ apt-get install httpie`
-⋅⋅* Windows users: 
+⋅⋅* Apple users: `$ brew install httpie` ⋅⋅
+⋅⋅* Linux users: `$ apt-get install httpie` ⋅⋅
+⋅⋅* Windows users: ⋅⋅
 ```
 $ pip install --upgrade pip setuptools
 
