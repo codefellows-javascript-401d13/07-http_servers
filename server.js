@@ -13,8 +13,11 @@ const server = http.createServer(function(req,res){
 
   req.url.query = querystring.parse(req.url.query);
 
-  if(req.method === 'POST' && req.url.pathname === '/cowsay'){
 
+  if(req.method === 'POST' && req.url.pathname === '/cowsay'){
+    res.writeHead(200, {
+      'Content-Type': 'text/plain'
+    });
     if(req.url.query.text){
       res.writeHead(200, {
         'Content-Type': 'text/plain'
@@ -24,7 +27,9 @@ const server = http.createServer(function(req,res){
       res.write(cowsay.say({text: req.url.query.text }));
 
       res.end();
+      return;
     }
+
 
     parseBody(req, function(err){
       console.log('ok the parseBody function request works...here is the request:', req);
@@ -33,7 +38,9 @@ const server = http.createServer(function(req,res){
         res.end();
       }
       console.log('post request body:', req.body);
+      res.write(cowsay.say({text: `${req.url.query.text}`}))
     });
+
     res.writeHead(400, {
       'Content-Type': 'text/plain'
     });
@@ -41,6 +48,8 @@ const server = http.createServer(function(req,res){
     res.write(cowsay.say({text: 'bad request' }));
     res.end();
   }
+
+
   if(req.url.pathname === '/'){
     console.log('pathname '/' was hit!');
     res.writeHead(200, {
