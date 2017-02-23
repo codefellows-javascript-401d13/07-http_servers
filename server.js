@@ -4,57 +4,71 @@ const http = require('http');
 const url = require('url');
 const querystring = require('querystring');
 const cowsay = require('cowsay');
-const parseBody = require('/lib/parse-body.js');
+const bodyParse = require('./lib/parse-body.js');
 const PORT = process.env.PORT || 8000;
 
-const server = http.createServer(function(req, res){
-    req.url = url.parse(req.url);
-    req.url.query = querystring.parse(req.url.query);
+const server = http.createServer(function(req, res) {
+  req.url = url.parse(req.url);
+  req.url.query = querystring.parse(req.url.query);
 
-    if (req.method === 'POST') {
-        parseBody(req, function(err) {
-            if(err){
-            console.error(err);
-
-        res.statusCode = 400;
-        res.write(cowsay.say({ text: 'bad moooove'}));
-        res.end();
-        return;
-    }
-    let message = req.body.text;
-    let cow = req.body.cow;
-
-    if ( message ) {
-    res.write(cowsay.say({
-        text: message,
-        f: cow,
-    }));
-    res.end();
-    return
-}
-
-res.statusCode = 400;
-res.write
-
-    if ( req.method === 'GET' && req.url.pathname === '/cowsay'){
-        res.setHeader('Content-type, text/plain');
-        if (req.url.pathname === '/cowsay') {
-           let message = req.body.text;
-           let cow = req.body.cow; 
-        
-        if ( message ) {
-    res.write(cowsay.say({
-        text: message,
-        f: cow,
-    }));
-        res.write('Status Code Fo Hunnit');
-        res.statusCode = 400;
-        res.write(cowsay.say({ text: 'bad request'}));
-        res.end();
-        return;
+  if(req.url.pathname === '/') {
+    let message = 'Hello from my server!';
+    res.writeHead(200, message, {
+      'Content-Type': 'text-plain'
     });
-    }; 
+    res.end();
+  }
+
+  if(req.method === 'GET' && req.url.pathname === '/cowsay') {
+    if(req.url.query.text) {
+      res.writeHead(200, {
+        'Content-Type': 'text/plain'
+      });
+      res.write(cowsay.say({
+        text: req.url.query.text,
+        f: 'elephant'
+      }));
+      res.end();
+    }
+    if(!req.url.query.text) {
+      res.writeHead(400, {
+        'Content-Type': 'text/plain'
+      });
+      res.write(cowsay.say({
+        text: 'bad request',
+        f: 'bunny'
+      }));
+      res.end();
+    }
+  }
+
+  if(req.method === 'POST' && req.url.pathname === '/cowsay') {
+    bodyParse(req, (err) => {
+      if(err) return console.error(err);
+      if(req.body.text) {
+        res.writeHead(200, {
+          'Content-Type': 'Success!'
+        });
+        res.write(cowsay.say({
+          text: 'winner',
+          f: 'daemon'
+        }));
+        res.end();
+      }
+      if(!req.body.text) {
+        res.writeHead(400, {
+          'Content-Type': 'Beef'
+        });
+        res.write(cowsay.say({
+          text: 'bad request',
+          f: 'cow'
+        }));
+        res.end();
+      }
+    });
+  }
 });
-server.listen(PORT, function(){
-    console.log('server up and running:', PORT);
-})
+
+server.listen(PORT, (req, res) => {
+  console.log('Server up:', PORT);
+});
