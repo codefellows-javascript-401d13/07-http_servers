@@ -12,6 +12,7 @@ const server = http.createServer(function(req, res) {
   req.url.query = querystring.parse(req.url.query);
 
 
+
   if (req.method === 'POST') {
     parseBody(req, function(err) {
       if (err) return console.error(err);
@@ -19,14 +20,26 @@ const server = http.createServer(function(req, res) {
     });
   };
 
-  if (req.method === 'GET' && req.url.pathname === '/cowsay') {
-    res.write(cowsay.say({ text: 'hello from cowville' }));
+
+  if(req.method === 'GET' && req.url.pathname === '/cowsay' && req.url.query) {
+      if(req.url.query.text ==='dragon') {
+        res.write(cowsay.say({f: 'dragon', text: 'DRAAAAAAGON!!'}));
+        res.end();
+      } else{
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.write(cowsay.say({text: req.url.query.text}));
+        res.end();
+      }
+    }
+
+    else {
+      res.writeHead(400, {'Content-Type': 'text/plain'});
+      res.write(cowsay.say({text: 'bad request'}));
+    }
     res.end();
-  };
+    return;
+  });
 
-  res.end();
-});
-
-server.listen(PORT, function() {
-  console.log('server up:', PORT);
-});
+  server.listen(PORT, () => {
+    console.log('Server running on PORT:', PORT);
+  });
