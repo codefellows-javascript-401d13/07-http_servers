@@ -2,33 +2,44 @@
 
 const http = require('http');
 const url = require('url');
-const querystring = require('querystring');
+
 const cowsay = require('cowsay');
+const querystring = require('querystring');
 const parseBody = require('./lib/parse-body.js');
-const PORT = process.env.PORT || 3000;
+
+const PORT = 3000;
 
 const server = http.createServer(function(req, res) {
+
+  let badRequest = 'Bad Request.';
+
   req.url = url.parse(req.url);
   req.url.query = querystring.parse(req.url.query);
 
-  // console.log('request url:', req.url);
-  // console.log('request method:', req.method);
-  // console.log('request headers:', req.headers);
-
-  if (req.method === 'POST') {
-    parseBody(req, function(err) {
-      if (err) return console.error(err);
-      console.log('POST request body:', req.body);
-    });
-  };
-
-  if (req.method === 'GET' && req.url.pathname === '/cowsay') {
-    res.write(cowsay.say({ text: 'hello from cowville' }));
+  if (req.url.pathname === '/') {
+    res.writeHead(200, { 'Content-Type': 'text-plain' } );
+    res.write('hello from my server!');
     res.end();
-  };
-
+  }
+  if (req.method === 'POST' && req.url.pathname ==='/cowsay') {
+    parseBody(req, function(err) {
+      if (err) response(res, 400, badRequest);
+      if (req.body.text) response(res, 200, req.body.text);
+    });
+    return;
+  }
+  if (req.method === 'GET' && req.url.pathname ==='/cowsay') {
+    if (req.url.query.text) response(res, 200, req.url.query.text);
+    else response(res, 400, badRequest);
+  }
   res.end();
 });
+
+ function response (res, code, string) {
+  res.writeHead(code, {'Content-Type': 'text-plain'});
+  res.write(cowsay.say( { text: `${string} MOO!` } ));
+  res.end();
+}
 
 server.listen(PORT, function() {
   console.log('server up:', PORT);
